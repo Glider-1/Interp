@@ -3,7 +3,6 @@ import pandas as pd
 from dataclasses import dataclass
 from typing import Literal, Optional
 
-# ===================== 对齐函数 =====================
 @dataclass
 class AlignedCurves:
     x_common: np.ndarray
@@ -49,21 +48,16 @@ def align_curves(
     return AlignedCurves(x_common=x_common, y1_on_common=y1c, y2_on_common=y2c)
 
 
-# ===================== 主程序 =====================
 if __name__ == "__main__":
-    # 读取 Excel
     df = pd.read_excel("data.xlsx")
 
-    # 假设结构：第1列 x1，第3列 y1，第4列 x2，第5列 y2
     x1 = df.iloc[:, 0].dropna().to_numpy()
     y1 = df.iloc[:, 2].dropna().to_numpy()
     x2 = df.iloc[:, 3].dropna().to_numpy()
     y2 = df.iloc[:, 4].dropna().to_numpy()
 
-    # 对齐
     aligned = align_curves(x1, y1, x2, y2, grid="union", method="linear")
 
-    # 保存到新 Excel
     out_df = pd.DataFrame({
         "x_common": aligned.x_common,
         "y1_aligned": aligned.y1_on_common,
@@ -71,5 +65,6 @@ if __name__ == "__main__":
     })
     out_df.to_excel("aligned_output.xlsx", index=False)
 
-    print("对齐完成，结果已保存到 aligned_output.xlsx")
+    print("aligned_output.xlsx")
+
 
